@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 import { useColorMode } from "@vueuse/core";
 const mode = useColorMode();
@@ -26,7 +26,6 @@ import { Separator } from "@/components/ui/separator";
 import { Menu } from "lucide-vue-next";
 import ToggleTheme from "./ToggleTheme.vue";
 import DiscordIcon from "@/icons/DiscordIcon.vue";
-import { SquareArrowOutUpRight } from "lucide-vue-next";
 import { routeList } from "@/config";
 
 const isOpen = ref<boolean>(false);
@@ -62,7 +61,7 @@ const isOpen = ref<boolean>(false);
       </SheetHeader>
       
       <div class="flex flex-col gap-2">
-        <template v-for="(route, index) in routeList">
+        <template v-for="(route) in routeList">
           <Button v-if="!route.hidden && route.component" as-child variant="ghost" class="justify-start text-base" >
             <router-link :to="route.href">
               <component v-if="route.iconPrefix" :is="route.iconPrefix" class="mr-1 w-4 h-4" />
@@ -94,7 +93,7 @@ const isOpen = ref<boolean>(false);
   <NavigationMenuList>
     <NavigationMenuItem>
       <NavigationMenuLink asChild>
-        <template v-for="(route, index) in routeList">
+        <template v-for="(route) in routeList">
           <Button v-if="!route.hidden && route.component" as-child variant="ghost" class="justify-start text-base" >
             <router-link :to="route.href">
               <component v-if="route.iconPrefix" :is="route.iconPrefix" class="mr-1 w-4 h-4" />

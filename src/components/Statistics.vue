@@ -23,7 +23,7 @@ onMounted(async () => {
     <div class="text-center font-bold md:text-5xl">
         <h1>Statistics</h1>
     </div>
-    <Table class="mt-4 w-[600px] max-w-screen-md mx-auto">
+    <Table class="mt-4 max-w-[600px] mx-auto">
     <TableHeader>
       <TableRow>
         <TableHead class="text-left">Statistic</TableHead>

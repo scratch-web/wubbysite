@@ -31,8 +31,8 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="relative bg-white rounded-lg shadow-md overflow-hidden min-w-[400px]">
-    <img :src="`https://assetdelivery.roblox.com/v1/asset/?id=${props.world.thumbnails[0]}`" alt="World Image" class="w-full h-60 object-cover mw-full" />
+  <div class="relative rounded-lg shadow-md overflow-hidden min-w-[400px]">
+    <img :src="`${props.world.thumbnails[0] ? `https://assetdelivery.roblox.com/v1/asset/?id=${props.world.thumbnails[0]}` : 'https://media.choke.dev/ShareX/2024/08/Roblox_AssetUnavailable.png'}`" class="w-full h-60 object-cover mw-full" />
 
     <div class="absolute bottom-4 left-4 bg-black bg-opacity-50 p-2 rounded text-white">
       <p class="text-xs">{{ props.world.name }}</p>

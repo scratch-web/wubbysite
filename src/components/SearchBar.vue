@@ -35,7 +35,7 @@ const emitSearch = () => {
       :disabled="props.loading"
     >
       <template v-if="props.loading">
-        <Loader2 class="w-4 h-4 animate-spin" />
+        <Loader2 class="w-5 h-5 animate-spin" />
       </template>
       <Search v-else class="w-5 h-5" />
     </Button>

@@ -5,11 +5,24 @@ import { Component } from "vue";
 import { SquareArrowOutUpRight } from "lucide-vue-next";
 
 export const IMAGE_CAROUSEL = {
-    DELAY: 5000,
+    DELAY: 3500,
     IMAGES: [
-        "https://media.choke.dev/ShareX/2024/08/Image1.jpg",
-        "https://media.choke.dev/ShareX/2024/08/Image2.png",
-        "https://media.choke.dev/ShareX/2024/08/13955046829.png"
+        {
+            id: 17081773426,
+            url: "https://media.choke.dev/ShareX/2024/08/Image1.jpg"
+        },
+        {
+            id: 14541883804,
+            url: "https://media.choke.dev/ShareX/2024/08/Image2.png"
+        },
+        {
+            id: 13955046829,
+            url: "https://media.choke.dev/ShareX/2024/08/13955046829.png"
+        },
+        {
+            id: 17233302180,
+            url: "https://media.choke.dev/ShareX/2024/08/17233302180.png"
+        }
     ]
 }
 

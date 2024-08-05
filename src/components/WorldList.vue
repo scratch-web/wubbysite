@@ -7,7 +7,9 @@ const loading = ref(false);
 const searchResults = ref();
 
 const searchWorld = async (query: string) => {
-    loading.value = true; // Set loading to true when starting the search
+    console.log(loading)
+    if (loading?.value || !query) return;
+    loading.value = true;
     try {
         const response = await fetch(`https://api.wubbygame.com/v1/searchworld?query=${query}&limit=100`)
             .then(response => response.json());
@@ -17,7 +19,24 @@ const searchWorld = async (query: string) => {
             return;
         }
 
-        searchResults.value = response
+
+        //@ts-ignore
+        const userIds = response.map(world => world.creator);
+        const usersResponse = await fetch("https://thingproxy.freeboard.io/fetch/https://users.roblox.com/v1/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userIds,
+                "excludeBannedUsers": false
+            })
+        })
+        .then(response => response.json())
+        .then(data => data.data)
+        .catch(() => null)
+
+        searchResults.value = [response, usersResponse]
         return;
     } catch {
         searchResults.value = "An error occurred"
@@ -30,10 +49,10 @@ const searchWorld = async (query: string) => {
 
 <template>
     <SearchBar @worldsearch="searchWorld" :loading="loading" />
-    <div class="mt-4 pl-16 pr-16" v-if="searchResults">
+    <div class="mt-4 pl-4 pr-4 min-[529px]:pl-16 min-[529px]:pr-16" v-if="searchResults">
         <p class="text-center" v-if="typeof searchResults === 'string'">{{ searchResults.valueOf() }}</p>
-        <div v-else class="grid grid-cols-4 gap-4">
-            <WorldCard v-for="world in searchResults" :key="world.id" :world="world"/>
+        <div v-else class="grid grid-cols-1 lg:grid-cols-2 min-[1363px]:grid-cols-3 min-[1776px]:grid-cols-4 gap-4">
+            <WorldCard v-for="world in searchResults[0]" :key="world.id" :world="world" :owners="searchResults[1]" />
         </div>
     </div>
 </template>

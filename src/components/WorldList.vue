@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { UUID } from 'crypto';
 import { useColorMode } from '@vueuse/core';
 
 import { Skeleton } from '@/components/ui/skeleton';

@@ -34,6 +34,12 @@ interface World {
 
 const searchWorld = async (query: string) => {
     if (loading?.value || !query) return;
+
+    if (query.length < 3) {
+        searchResults.value = [false, "Search query must be atleast 3 characters long"]
+        return;
+    }
+
     loading.value = true;
     skeletonCount.value = Math.floor(Math.random() * 12) + 1;
     searchResults.value = null;
@@ -43,7 +49,7 @@ const searchWorld = async (query: string) => {
         .then(response => response.json());
         
         if (!response || response.length === 0) {
-            searchResults.value = "No results found";
+            searchResults.value = [false, "No results found"]
             return;
         }
         
@@ -62,9 +68,9 @@ const searchWorld = async (query: string) => {
         .then(data => data.data)
         .catch(() => null);
         
-        searchResults.value = [response, usersResponse];
-    } catch {
-        searchResults.value = "An error occurred";
+        searchResults.value = [true, [response, usersResponse]];
+    } catch(err) {
+        searchResults.value = [false, "An error occured"]
     } finally {
         loading.value = false;
     }
@@ -83,7 +89,7 @@ const searchWorld = async (query: string) => {
                 'bg-neutral-800': mode.valueOf() == 'dark',
             }" />
         </div>
-        <p class="text-center" v-if="searchResults && typeof searchResults === 'string'">{{ searchResults.valueOf() }}</p>
+        <p class="text-center" v-if="searchResults && searchResults[0] === false">{{ searchResults[1] }}</p>
         <div v-else-if="searchResults" class="grid grid-cols-1 lg:grid-cols-2 min-[1363px]:grid-cols-3 min-[1776px]:grid-cols-4 gap-4">
             <WorldCard v-for="world in searchResults[0]" :key="world.id" :world="world" :owners="searchResults[1]" />
         </div>

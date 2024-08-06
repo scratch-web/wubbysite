@@ -33,7 +33,11 @@ interface World {
 }
 
 const searchWorld = async (query: string) => {
-    if (loading?.value || !query) return;
+    if (loading?.value) return;
+    if (!query) {
+        searchResults.value = null;
+        return;
+    }
 
     if (query.length < 3) {
         searchResults.value = [false, "Search query must be atleast 3 characters long"]
@@ -53,22 +57,7 @@ const searchWorld = async (query: string) => {
             return;
         }
         
-        const userIds = response.map((world: World) => world.creator);
-        const usersResponse = await fetch("https://thingproxy.freeboard.io/fetch/https://users.roblox.com/v1/users", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userIds,
-                "excludeBannedUsers": false
-            })
-        })
-        .then(response => response.json())
-        .then(data => data.data)
-        .catch(() => null);
-        
-        searchResults.value = [true, { worlds: response, users: usersResponse }];
+        searchResults.value = [true, response];
     } catch(err) {
         searchResults.value = [false, "An error occured"]
     } finally {
@@ -91,7 +80,7 @@ const searchWorld = async (query: string) => {
         </div>
         <p class="text-center" v-if="searchResults && !searchResults[0]">{{ searchResults[1] }}</p>
         <div v-else-if="searchResults && searchResults[0]" class="grid grid-cols-1 lg:grid-cols-2 min-[1363px]:grid-cols-3 min-[1776px]:grid-cols-4 gap-4">
-            <WorldCard v-for="world in searchResults[1].worlds" :key="world.id" :world="world" :owners="searchResults[1].users" />
+            <WorldCard v-for="world in searchResults[1]" :key="world.id" :world="world" />
         </div>
     </div>
 </template>

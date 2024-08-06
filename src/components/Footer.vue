@@ -13,7 +13,7 @@ import Separator from "./ui/separator/Separator.vue";
       >
         <div class="col-span-full xl:col-span-2">
           <a
-            href="#"
+            href="/"
             class="flex font-bold items-center"
           >
             <img src='/src/assets/favicon.svg' width="32" height="32" class="mr-2"/>

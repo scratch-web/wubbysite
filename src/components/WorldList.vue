@@ -12,26 +12,6 @@ const mode = useColorMode();
 const searchResults = ref();
 const skeletonCount = ref(0);
 
-interface World {
-    id: string;
-    activePlayers: number;
-    blocks: number;
-    bannedPlayers: string[];
-    creator: number;
-    description: string;
-    favorites: number | null;
-    isFeatured: boolean;
-    maxPlayers: number;
-    name: string;
-    privateWhitelistedPlayers: number[];
-    privacyState: number;
-    serverJobId: UUID;
-    thirdPartyWarps: boolean | null;
-    thumbnails: number[];
-    visits: number;
-    whitelistedPlayers: number[];
-}
-
 const searchWorld = async (query: string) => {
     if (loading?.value) return;
     if (!query) {

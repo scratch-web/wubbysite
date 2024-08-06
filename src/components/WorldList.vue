@@ -68,7 +68,7 @@ const searchWorld = async (query: string) => {
         .then(data => data.data)
         .catch(() => null);
         
-        searchResults.value = [true, [response, usersResponse]];
+        searchResults.value = [true, { worlds: response, users: usersResponse }];
     } catch(err) {
         searchResults.value = [false, "An error occured"]
     } finally {
@@ -89,9 +89,9 @@ const searchWorld = async (query: string) => {
                 'bg-neutral-800': mode.valueOf() == 'dark',
             }" />
         </div>
-        <p class="text-center" v-if="searchResults && searchResults[0] === false">{{ searchResults[1] }}</p>
-        <div v-else-if="searchResults" class="grid grid-cols-1 lg:grid-cols-2 min-[1363px]:grid-cols-3 min-[1776px]:grid-cols-4 gap-4">
-            <WorldCard v-for="world in searchResults[0]" :key="world.id" :world="world" :owners="searchResults[1]" />
+        <p class="text-center" v-if="searchResults && !searchResults[0]">{{ searchResults[1] }}</p>
+        <div v-else-if="searchResults && searchResults[0]" class="grid grid-cols-1 lg:grid-cols-2 min-[1363px]:grid-cols-3 min-[1776px]:grid-cols-4 gap-4">
+            <WorldCard v-for="world in searchResults[1].worlds" :key="world.id" :world="world" :owners="searchResults[1].users" />
         </div>
     </div>
 </template>

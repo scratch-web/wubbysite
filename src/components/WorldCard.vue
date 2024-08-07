@@ -41,7 +41,10 @@ setInterval(updateIndex, 7000);
 </script>
 
 <template>
-  <div class="relative rounded-lg shadow-md overflow-hidden min-w-[400px]">
+  <div :class="{
+    'relative rounded-lg shadow-md overflow-hidden min-w-[400px]': true,
+    'outline outline-yellow-300': props.world.isFeatured
+  }">
   
   <div v-if="thumbnails.length > 0" class="relative w-full h-60 overflow-hidden">
     <transition name="fade">

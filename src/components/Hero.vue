@@ -7,6 +7,29 @@ import {
   CarouselItem
 } from '@/components/ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
+import { onMounted, ref } from "vue";
+import axios from "axios";
+import { WubbyAPIWorldInfo } from "@/../global";
+import { LoaderCircle } from "lucide-vue-next";
+
+const worldData = ref<Record<number, (WubbyAPIWorldInfo & { url: string }) | null>>({});
+const loadingImageDetails = ref<boolean>(true);
+
+onMounted(async () => {
+  try {
+    const promises = IMAGE_CAROUSEL.IMAGES.map(async (image) => {
+      const { data } = await axios.get(`https://api.wubbygame.com/v1/worldinfo/${image.id}`);
+
+      worldData.value[image.id] = data ? { ...data, url: image.url } : null;
+    });
+
+    await Promise.all(promises);
+  } catch (error) {
+    console.error("Error fetching world info:", error);
+  } finally {
+    loadingImageDetails.value = false;
+  }
+});
 </script>
 
 <template>
@@ -43,18 +66,22 @@ import Autoplay from 'embla-carousel-autoplay'
         >
           <CarouselContent class="rounded-lg">
             <CarouselItem v-for="(image, index) in IMAGE_CAROUSEL.IMAGES" :key="index">
-              <div class="relative">
+              <div class="relative" v-if="image">
                 <img :src="image.url" class="h-full w-full rounded-lg" />
-                <div class="absolute bottom-4 left-4 bg-black bg-opacity-25 p-2 rounded text-white">
-                  <p class="text-xs">
-                    {{ image.id }}
-                  </p>
+                <div class="absolute bottom-0 left-0 w-full md:h-28 bg-gradient-to-b from-background/0 via-background/50 to-background rounded-lg"></div>
+                <div class="absolute bottom-1 left-1 p-2 rounded text-white">
+                  <LoaderCircle class="w-12 h-12 animate-spin" v-if="loadingImageDetails"/>
+                  <div class="text-xs" v-else-if="image.id in worldData">
+                    <h1 class="font-bold text-base">{{ worldData[image.id]?.name }}</h1>
+                    <a :href="`https://www.roblox.com/users/${worldData[image.id]?.creator.id}/profile`" target="_blank">@{{ worldData[image.id]?.creator.name }}</a>
+                    <p>{{ image.id }}</p>
+                  </div>
                 </div>
               </div>
             </CarouselItem>
           </CarouselContent>
         </Carousel>
-        <div class="absolute bottom-0 left-0 w-full h-20 md:h-28 bg-gradient-to-b from-background/0 via-background/50 to-background rounded-lg"></div>
+        
       </div>
     </div>
   </section>

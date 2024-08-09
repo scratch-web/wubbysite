@@ -66,7 +66,8 @@ import Separator from "./ui/separator/Separator.vue";
 
       <Separator class="my-6" />
       <section className="">
-        <h3 class="">
+        <p>Want to see your world featured on the site homepage? <a class="text-primary" href="https://forms.gle/VbJxEhE9JNU292vZ9">Submit an application here</a>!</p>
+        <h3 class="text-zinc-600">
           &copy; {{ new Date().getFullYear() }} wireframe. All rights reserved.
         </h3>
       </section>

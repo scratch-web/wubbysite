@@ -12,15 +12,36 @@ import axios from "axios";
 import { WubbyAPIWorldInfo } from "@/../global";
 import { LoaderCircle } from "lucide-vue-next";
 
-const worldData = ref<Record<number, (WubbyAPIWorldInfo & { url: string }) | null>>({});
+const worldData = ref<Record<number, (Omit<WubbyAPIWorldInfo, 'creator'> & {
+  creator: {
+    id: number;
+    name: string;
+    displayName: string;
+  };
+  url: string;
+}) | null>>({});
 const loadingImageDetails = ref<boolean>(true);
 
 onMounted(async () => {
   try {
     const promises = IMAGE_CAROUSEL.IMAGES.map(async (image) => {
+      // Fetch world info
       const { data } = await axios.get(`https://api.wubbygame.com/v1/worldinfo/${image.id}`);
-
-      worldData.value[image.id] = data ? { ...data, url: image.url } : null;
+      
+      // If data is present, fetch creator details
+      if (data) {
+        const userResponse = await axios.post('https://users.roproxy.com/v1/users', {
+          userIds: [data.creator],
+          excludeBannedUsers: false
+        });
+        
+        const creatorDetails = userResponse.data.data?.[0] || null;
+        worldData.value[image.id] = creatorDetails 
+          ? { ...data, url: image.url, creator: creatorDetails } 
+          : { ...data, url: image.url };
+      } else {
+        worldData.value[image.id] = null;
+      }
     });
 
     await Promise.all(promises);

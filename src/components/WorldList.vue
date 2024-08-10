@@ -5,6 +5,7 @@ import { useColorMode } from '@vueuse/core';
 import { Skeleton } from '@/components/ui/skeleton';
 import SearchBar from '@/components/SearchBar.vue';
 import WorldCard from '@/components/WorldCard.vue';
+import { WubbyAPIWorldInfo } from 'global';
 
 const loading = ref(false);
 const mode = useColorMode();
@@ -13,7 +14,7 @@ const skeletonCount = ref(0);
 
 const searchWorld = async (query: string) => {
     if (loading?.value) return;
-
+    
     // Validate the query
     if (!query) {
         searchResults.value = null;
@@ -23,14 +24,14 @@ const searchWorld = async (query: string) => {
         searchResults.value = [false, "Search query must be at least 3 characters long"];
         return;
     }
-
+    
     loading.value = true;
     searchResults.value = null;
-
+    
     try {
         
         const isNumericQuery = /^[0-9]+$/.test(query);
-
+        
         if (isNumericQuery) {
             skeletonCount.value = 1;
             const response = await fetch(`https://api.wubbygame.com/v1/worldinfo/${parseInt(query)}`).then(res => res.json());
@@ -40,7 +41,40 @@ const searchWorld = async (query: string) => {
             const response = await fetch(`https://api.wubbygame.com/v1/searchworld?query=${encodeURIComponent(query)}&limit=100`).then(res => res.json());
             searchResults.value = response.length ? [true, response] : [false, "No results found"];
         }
-
+        
+        if (searchResults.value[0]) {
+            const creatorUserIds: number[] = [];
+            searchResults.value[1].forEach((world: WubbyAPIWorldInfo) => {
+                creatorUserIds.push(world.creator);
+            });
+            
+            const response: { id: number; name: string; displayName: string }[] = await fetch('https://users.roproxy.com/v1/users', {
+                method: "POST",
+                body: JSON.stringify({
+                    userIds: creatorUserIds,
+                    excludeBannedUsers: false
+                })
+            }).then(res => res.json()).then(res => res.data);
+            
+            const userMap = new Map<number, { id: number; name: string; displayName: string }>();
+            response.forEach(user => {
+                userMap.set(user.id, user);
+            });
+            
+            searchResults.value[1].forEach((world: WubbyAPIWorldInfo) => {
+                const userResponse = userMap.get(world.creator);
+                if (userResponse) {
+                    // @ts-ignore
+                    world.creator = {
+                        id: userResponse.id,
+                        name: userResponse.name,
+                        displayName: userResponse.displayName
+                    };
+                }
+            });
+        }
+        
+        
     } catch (err) {
         searchResults.value = [false, "An error occurred"];
     } finally {

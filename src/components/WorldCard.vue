@@ -4,7 +4,13 @@ import { List, Lock, Trash2 } from 'lucide-vue-next';
 import { defineProps, ref, computed } from 'vue';
 
 const props = defineProps<{
-  world: WubbyAPIWorldInfo;
+  world: Omit<WubbyAPIWorldInfo, 'creator'> & {
+    creator: {
+      id: number;
+      name: string;
+      displayName: string;
+    };
+  };
 }>();
 
 const currentIndex = ref(0);

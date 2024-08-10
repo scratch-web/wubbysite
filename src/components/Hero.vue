@@ -20,31 +20,49 @@ const worldData = ref<Record<number, (Omit<WubbyAPIWorldInfo, 'creator'> & {
   };
   url: string;
 }) | null>>({});
+
 const loadingImageDetails = ref<boolean>(true);
 
 onMounted(async () => {
   try {
-    const promises = IMAGE_CAROUSEL.IMAGES.map(async (image) => {
-      // Fetch world info
+    const worldInfoPromises = IMAGE_CAROUSEL.IMAGES.map(async (image) => {
       const { data } = await axios.get(`https://api.wubbygame.com/v1/worldinfo/${image.id}`);
-      
-      // If data is present, fetch creator details
+      return { data, worldId: image.id, imageUrl: image.url };
+    });
+
+    const worldInfoResults = await Promise.all(worldInfoPromises);
+    const userIds = new Set<number>();
+
+    worldInfoResults.forEach(({ data, worldId, imageUrl }) => {
       if (data) {
-        const userResponse = await axios.post('https://users.roproxy.com/v1/users', {
-          userIds: [data.creator],
-          excludeBannedUsers: false
-        });
-        
-        const creatorDetails = userResponse.data.data?.[0] || null;
-        worldData.value[image.id] = creatorDetails 
-          ? { ...data, url: image.url, creator: creatorDetails } 
-          : { ...data, url: image.url };
+        userIds.add(data.creator);
+        worldData.value[worldId] = { ...data, url: imageUrl };
       } else {
-        worldData.value[image.id] = null;
+        worldData.value[worldId] = null;
       }
     });
 
-    await Promise.all(promises);
+    if (userIds.size > 0) {
+      const userResponse = await axios.post('https://users.roproxy.com/v1/users', {
+        userIds: Array.from(userIds),
+        excludeBannedUsers: false
+      });
+
+      const userDetails = new Map<number, any>();
+      userResponse.data.data.forEach((user: any) => {
+        userDetails.set(user.id, user);
+      });
+
+      Object.keys(worldData.value).forEach((worldId) => {
+        //@ts-ignore
+        const worldInfo = worldData.value[worldId];
+        if (worldInfo && worldInfo.creator) {
+          const creatorDetails = userDetails.get(worldInfo.creator) || null;
+          //@ts-ignore
+          worldData.value[worldId] = { ...worldInfo, creator: creatorDetails };
+        }
+      });
+    }
   } catch (error) {
     console.error("Error fetching world info:", error);
   } finally {

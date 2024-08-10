@@ -95,8 +95,8 @@ const searchWorld = async (query: string) => {
                 'bg-neutral-800': mode.valueOf() == 'dark',
             }" />
         </div>
-        <p class="text-center" v-if="searchResults && !searchResults[0]">{{ searchResults[1] }}</p>
-        <div v-else-if="searchResults && searchResults[0]" class="grid grid-cols-1 lg:grid-cols-2 min-[1363px]:grid-cols-3 min-[1776px]:grid-cols-4 gap-4">
+        <p class="text-center" v-if="!loading && searchResults && !searchResults[0]">{{ searchResults[1] }}</p>
+        <div v-else-if="!loading && searchResults && searchResults[0]" class="grid grid-cols-1 lg:grid-cols-2 min-[1363px]:grid-cols-3 min-[1776px]:grid-cols-4 gap-4">
             <WorldCard v-for="world in searchResults[1]" :key="world.id" :world="world" />
         </div>
     </div>

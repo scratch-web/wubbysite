@@ -1,35 +1,14 @@
 <script setup lang="ts">
-import { UUID } from 'crypto';
+import { WubbyAPIWorldInfo } from 'global';
 import { List, Lock, Trash2 } from 'lucide-vue-next';
 import { defineProps, ref, computed } from 'vue';
 
-interface World {
-  id: number;
-  activePlayers: string[] | { username: string, displayName: string, permission: number }[];
-  blocks: number;
-  bannedPlayers: unknown[];
-  creator: { id: number, name: string, displayName: string };
-  description: string;
-  favorites: number;
-  isFeatured: boolean;
-  maxPlayers: number;
-  name: string;
-  privateWhitelistedPlayers: number[];
-  privacyState: number;
-  serverJobId: UUID;
-  thirdPartyWarpInfo: boolean;
-  thirdPartyWarps: boolean;
-  thumbnails: number | number[];
-  visits: number;
-  whitelistedPlayers: number[];
-}
-
 const props = defineProps<{
-  world: World;
+  world: WubbyAPIWorldInfo;
 }>();
 
 const currentIndex = ref(0);
-const thumbnails = computed(() => Array.isArray(props.world.thumbnails) ? props.world.thumbnails : []);
+const thumbnails = computed(() => props.world.thumbnails);
 
 function updateIndex() {
   if (thumbnails.value.length > 1) {
@@ -46,7 +25,7 @@ setInterval(updateIndex, 7000);
     'outline outline-yellow-300': props.world.isFeatured
   }">
   
-  <div v-if="thumbnails.length > 0" class="relative w-full h-60 overflow-hidden">
+  <div v-if="thumbnails.length >= 2 " class="relative w-full h-60 overflow-hidden">
     <transition name="fade">
       <img
       :key="thumbnails[currentIndex]"
@@ -58,9 +37,10 @@ setInterval(updateIndex, 7000);
   
   <img
   v-else
-  :src="`${Array.isArray(thumbnails) && thumbnails[0] 
+  :src="`${thumbnails.length === 1
     ? `https://assetdelivery.roblox.com/v1/asset/?id=${thumbnails[0]}` 
     : 'https://media.choke.dev/ShareX/2024/08/Roblox_AssetUnavailable.png'}`"
+  onerror="this.onerror=null;this.src='https://media.choke.dev/ShareX/2024/08/Roblox_AssetUnavailable.png'"
   class="w-full h-60 object-cover"
   />
   

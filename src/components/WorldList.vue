@@ -13,32 +13,36 @@ const skeletonCount = ref(0);
 
 const searchWorld = async (query: string) => {
     if (loading?.value) return;
+
+    // Validate the query
     if (!query) {
         searchResults.value = null;
         return;
     }
-
     if (query.length < 3) {
-        searchResults.value = [false, "Search query must be atleast 3 characters long"]
+        searchResults.value = [false, "Search query must be at least 3 characters long"];
         return;
     }
 
     loading.value = true;
-    skeletonCount.value = Math.floor(Math.random() * 12) + 1;
     searchResults.value = null;
-    
+
     try {
-        const response = await fetch(`https://api.wubbygame.com/v1/searchworld?query=${encodeURIComponent(query)}&limit=100`)
-        .then(response => response.json());
         
-        if (!response || response.length === 0) {
-            searchResults.value = [false, "No results found"]
-            return;
+        const isNumericQuery = /^[0-9]+$/.test(query);
+
+        if (isNumericQuery) {
+            skeletonCount.value = 1;
+            const response = await fetch(`https://api.wubbygame.com/v1/worldinfo/${parseInt(query)}`).then(res => res.json());
+            searchResults.value = [true, [response]];
+        } else {
+            skeletonCount.value = Math.floor(Math.random() * 12) + 1;
+            const response = await fetch(`https://api.wubbygame.com/v1/searchworld?query=${encodeURIComponent(query)}&limit=100`).then(res => res.json());
+            searchResults.value = response.length ? [true, response] : [false, "No results found"];
         }
-        
-        searchResults.value = [true, response];
-    } catch(err) {
-        searchResults.value = [false, "An error occured"]
+
+    } catch (err) {
+        searchResults.value = [false, "An error occurred"];
     } finally {
         loading.value = false;
     }

@@ -49,7 +49,7 @@ setInterval(updateIndex, 7000);
   v-if="[2, 3, 4].includes(props.world.privacyState)"
   >
     <div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center">
-      <div v-if="props.world.privacyState === 2" class="text-center">
+      <div v-if="props.world.privacyState === 2" class="text-center text-white">
         <Lock class="h-16 w-16 text-white" />
         Private
       </div>

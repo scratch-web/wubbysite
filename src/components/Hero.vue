@@ -107,8 +107,8 @@ onMounted(async () => {
             <CarouselItem v-for="(image, index) in IMAGE_CAROUSEL.IMAGES" :key="index">
               <div class="relative" v-if="image">
                 <img :src="image.url" class="h-full w-full rounded-lg" />
-                <div class="absolute bottom-0 left-0 w-full md:h-28 bg-gradient-to-b from-background/0 via-background/50 to-background rounded-lg"></div>
-                <div class="absolute bottom-1 left-1 p-2 rounded text-white">
+                <div class="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-b from-background/0 via-background/50 to-background rounded-lg"></div>
+                <div class="absolute bottom-1 left-1 p-2 rounded">
                   <LoaderCircle class="w-12 h-12 animate-spin" v-if="loadingImageDetails"/>
                   <div class="text-xs" v-else-if="image.id in worldData">
                     <h1 class="font-bold text-base">{{ worldData[image.id]?.name }}</h1>

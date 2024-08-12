@@ -12,10 +12,12 @@ import {
 } from '@/components/ui/table'
 
 const stats = ref<{ worlds: { total: number; featured: number }, blocks: number }>();
+const loadingStats = ref<boolean>(true);
 
 onMounted(async () => {
     const response = await axios.get('https://api.wubbygame.com/statistics')
     stats.value = response.data
+    loadingStats.value = false
 })
 </script>
 
@@ -33,11 +35,13 @@ onMounted(async () => {
     <TableBody>
       <TableRow>
         <TableCell class="font-medium text-left">Total Worlds</TableCell>
-        <TableCell class="text-right">{{ stats?.worlds.total?.toLocaleString("en-US") }}</TableCell>
+        <TableCell class="text-right" v-if="loadingStats">...</TableCell>
+        <TableCell class="text-right" v-else>{{ stats?.worlds.total?.toLocaleString("en-US") }}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell class="font-medium text-left">Total Blocks</TableCell>
-        <TableCell class="text-right">{{ stats?.blocks?.toLocaleString("en-US") }}</TableCell>
+        <TableCell class="text-right" v-if="loadingStats">...</TableCell>
+        <TableCell class="text-right" v-else>{{ stats?.blocks?.toLocaleString("en-US") }}</TableCell>
       </TableRow>
     </TableBody>
   </Table>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { WubbyAPIWorldInfo } from 'global';
+import { Badge } from '@/components/ui/badge'
 import { List, Lock, Trash2 } from 'lucide-vue-next';
 import { defineProps, ref, computed } from 'vue';
 
@@ -26,10 +27,12 @@ setInterval(updateIndex, 7000);
 </script>
 
 <template>
-  <div :class="{
-    'relative rounded-lg shadow-md overflow-hidden min-w-[400px]': true,
-    'outline outline-yellow-300': props.world.isFeatured
-  }">
+  <div 
+  :class="{
+    'relative rounded-lg shadow-md overflow-hidden min-w-[300px]': true,
+    'outline outline-4 outline-yellow-300': props.world.isFeatured
+  }"
+  >
   
   <div v-if="thumbnails.length >= 2 " class="relative w-full h-60 overflow-hidden">
     <transition name="fade">
@@ -68,6 +71,10 @@ setInterval(updateIndex, 7000);
         Deleted
       </div>
     </div>
+  </div>
+
+  <div v-if="props.world.isFeatured" class="absolute left-0 top-0 bg-black bg-opacity-0 p-2 rounded text-white text-right">
+    <Badge class="border-transparent bg-[#fde047] bg-opacity-80 text-primary-foreground hover:bg-primary/80">Featured</Badge>
   </div>
 
   <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-50%"></div>

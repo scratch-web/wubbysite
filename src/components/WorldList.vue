@@ -22,34 +22,42 @@ const searchWorld = async (query: string) => {
     
     loading.value = true;
     searchResults.value = null;
-
+    
     try {
         let response;
         const isUserQuery = query.toLowerCase().startsWith('user:');
         const isNumericQuery = /^[0-9]+$/.test(query);
-
+        
         if (isUserQuery) {
             query = query.replace('user:', '');
             const userResponse = await fetch(`https://users.roproxy.com/v1/users/search?keyword=${encodeURIComponent(query)}&limit=10`).then(res => res.json());
-
+            
             const matchedUser = userResponse.data.find((user: { name: string, previousUsernames: string[] }) => user.name.toLowerCase() === query.toLowerCase() || user.previousUsernames?.some((previousUsername) => previousUsername.toLowerCase() === query.toLowerCase()));            if (!matchedUser) {
                 searchResults.value = [false, "No user found"];
                 return;
             }
-
+            
             response = await fetch(`https://api.wubbygame.com/v1/userworlds/${matchedUser.id}`).then(res => res.json());
         } else if (isNumericQuery) {
             skeletonCount.value = 1;
             response = await fetch(`https://api.wubbygame.com/v1/worldinfo/${parseInt(query)}`).then(res => res.json());
         } else {
             skeletonCount.value = Math.floor(Math.random() * 12) + 1;
-            response = await fetch(`https://api.wubbygame.com/v1/searchworld?query=${encodeURIComponent(query)}&limit=100`).then(res => res.json());
+            response = await fetch  (`https://api.wubbygame.com/v1/searchworld?query=${encodeURIComponent(query)}&limit=100`).then(res => res.json());
         }
-
-        searchResults.value = response.length ? [true, response] : [false, "No results found"];
-
+        
+        if ((Array.isArray(response) && response.length === 0) || (typeof response === 'object' && Object.keys(response).length === 0)) {
+            searchResults.value = [false, "No results found"];
+        } else if (Array.isArray(response) && response.length >= 1) {
+            searchResults.value = [true, response];
+        } else if (typeof response === 'object') {
+            searchResults.value = [true, [response]];
+        }
+        
+        if (!searchResults.value[0]) return;
+        
         const creatorIds = searchResults.value[1]?.map((world: WubbyAPIWorldInfo) => world.creator) || [];
-
+        
         if (creatorIds.length) {
             const creatorResponse = await fetch(`https://users.roproxy.com/v1/users`, {
                 method: 'POST',
@@ -58,10 +66,15 @@ const searchWorld = async (query: string) => {
                     excludeBannedUsers: false
                 })
             }).then(res => res.json());
-
+            
             creatorInfos.value = creatorResponse.data;
         }
-    } catch (err) {
+    } catch (err: any) {
+        if (err.response && err.response.status === 429) {
+            searchResults.value = [false, "You are sending too many requests! Please try again later."];
+            return;
+        }
+        
         console.warn(`Caught error: ${err}`);
         searchResults.value = [false, "An error occurred"];
     } finally {

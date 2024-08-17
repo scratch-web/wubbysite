@@ -15,7 +15,7 @@ const searchResults = ref();
 const creatorInfos = ref();
 
 const searchWorld = async (query: string) => {
-    if (loading.value || !query || query.length < 3) { 
+    if (loading.value || !query || query.length < 3) {
         searchResults.value = !query || query.length < 3 ? [false, "Search query must be at least 3 characters long"] : null;
         return;
     }

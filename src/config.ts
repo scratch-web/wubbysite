@@ -29,7 +29,7 @@ export const IMAGE_CAROUSEL = {
         },
         {
             id: 17360907224,
-            url: "https://media.choke.dev/ShareX/2024/12/image-2.png"
+            url: "https://media.choke.dev/ShareX/2024/12/RobloxPlayerBeta_D6LRkzuXkn.png"
         },
         {
             id: 112829823959648,

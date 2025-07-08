@@ -4,12 +4,12 @@ import NotFound from "@/views/NotFound.vue";
 import { Component } from "vue";
 import { SquareArrowOutUpRight } from "lucide-vue-next";
 
-export const IMAGE_CAROUSEL = {
+export const IMAGE_CAROUSEL = { // FOR FUTURE REFERENCE, ONLY USE 1015x636 FOR THE RATIO
     DELAY: 3500,
     IMAGES: [
         {
             id: 14159191425,
-            url: "https://files.catbox.moe/nxswpr.png"
+            url: "https://files.catbox.moe/nxswpr.png" 
         },
         {
             id: 13955723945,

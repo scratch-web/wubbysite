@@ -61,9 +61,9 @@ import Separator from "./ui/separator/Separator.vue";
         <h3 class="text-zinc-600">
           Hosted by blue_, made by choke.
         </h3>
-        <h3 class="text-zinc-600">
+        <h2 class="text-zinc-600">
           &copy; {{ new Date().getFullYear() }} wireframe. All rights reserved.
-        </h3>
+        </h2>
       </section>
     </div>
   </footer>

@@ -8,32 +8,12 @@ export const IMAGE_CAROUSEL = {
     DELAY: 3500,
     IMAGES: [
         {
-            id: 17081773426,
-            url: "https://media.choke.dev/ShareX/2024/08/Image1.jpg"
+            id: 14159191425,
+            url: "https://files.catbox.moe/nxswpr.png"
         },
         {
-            id: 14541883804,
-            url: "https://media.choke.dev/ShareX/2024/08/Image2.png"
-        },
-        {
-            id: 13955046829,
-            url: "https://media.choke.dev/ShareX/2024/08/13955046829.png"
-        },
-        {
-            id: 17233302180,
-            url: "https://media.choke.dev/ShareX/2024/08/17233302180.png"
-        },
-        {
-            id: 18232317690,
-            url: "https://media.choke.dev/ShareX/2024/08/RobloxPlayerBeta_nkOAGVEY6w.png"
-        },
-        {
-            id: 17360907224,
-            url: "https://media.choke.dev/ShareX/2024/12/RobloxPlayerBeta_D6LRkzuXkn.png"
-        },
-        {
-            id: 112829823959648,
-            url: "https://media.choke.dev/ShareX/2024/12/RobloxPlayerBeta_biKktgHC5w.png"
+            id: 13955723945,
+            url: "https://files.catbox.moe/t17cd8.png"
         }
     ]
 }

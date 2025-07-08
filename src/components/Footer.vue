@@ -26,19 +26,10 @@ import Separator from "./ui/separator/Separator.vue";
           <h3 class="font-bold text-lg">Help</h3>
           <div>
             <a
-              href="mailto:admin@wubbygame.com"
+              href="mailto:casualmorehere@gmail.com"
               class="opacity-60 hover:opacity-100"
             >
               Contact Us
-            </a>
-          </div>
-
-          <div>
-            <a
-              href="mailto:feedback@wubbygame.com"
-              class="opacity-60 hover:opacity-100"
-            >
-              Feedback
             </a>
           </div>
         </div>
@@ -66,7 +57,7 @@ import Separator from "./ui/separator/Separator.vue";
 
       <Separator class="my-6" />
       <section className="">
-        <p>Want to see your world featured on the site homepage? <a class="text-primary" target="_blank" href="https://forms.gle/VbJxEhE9JNU292vZ9">Submit an application here</a>!</p>
+        <p>Want to see your world featured on the site homepage? <a class="text-primary" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfg9hSq-xisJM2zUxMGzzkjcRL5qoSjMdCjdlOrWupY27MLkQ/viewform">Submit an application here</a>!</p>
         <h3 class="text-zinc-600">
           &copy; {{ new Date().getFullYear() }} wireframe. All rights reserved.
         </h3>

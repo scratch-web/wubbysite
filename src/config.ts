@@ -13,11 +13,11 @@ export const IMAGE_CAROUSEL = {
         },
         {
             id: 13955723945,
-            url: "https://files.catbox.moe/z4odbx.png"
+            url: "https://files.catbox.moe/s4zovu.png"
         },
         {
             id: 18667580548,
-            url: "https://files.catbox.moe/uheig5.png"
+            url: "https://files.catbox.moe/c8r9sy.png"
         }
     ]
 }

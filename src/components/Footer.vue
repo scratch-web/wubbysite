@@ -59,6 +59,9 @@ import Separator from "./ui/separator/Separator.vue";
       <section className="">
         <p>Want to see your world featured on the site homepage? <a class="text-primary" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfg9hSq-xisJM2zUxMGzzkjcRL5qoSjMdCjdlOrWupY27MLkQ/viewform">Submit an application here</a>!</p>
         <h3 class="text-zinc-600">
+          Hosted by blue_, made by choke.
+        </h3>
+        <h3 class="text-zinc-600">
           &copy; {{ new Date().getFullYear() }} wireframe. All rights reserved.
         </h3>
       </section>

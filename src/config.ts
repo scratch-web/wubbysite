@@ -9,7 +9,7 @@ export const IMAGE_CAROUSEL = {
     IMAGES: [
         {
             id: 14159191425,
-            url: "https://files.catbox.moe/nxswpr.png"
+            url: "https://files.catbox.moe/oyvi9g.png"
         },
         {
             id: 13955723945,

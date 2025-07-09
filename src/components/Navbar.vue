@@ -28,13 +28,11 @@ const sidebarWidth = computed(() => (collapsed.value ? "w-16" : "w-64"));
 </script>
 
 <template>
-  <div class="bg-background text-white">
-    <!-- Sticky Left Sidebar -->
+  <div class="flex min-h-screen bg-background text-white">
     <aside
       class="hidden lg:flex fixed top-0 left-0 h-screen bg-card border-r p-3 z-40 transition-all duration-300 ease-in-out flex-col"
       :class="sidebarWidth"
     >
-      <!-- Logo + Collapse Button -->
       <div class="flex items-center justify-between mb-6">
         <RouterLink to="/" class="flex items-center space-x-2">
           <img src="/src/assets/favicon.svg" width="24" height="24" />
@@ -50,7 +48,6 @@ const sidebarWidth = computed(() => (collapsed.value ? "w-16" : "w-64"));
         </Button>
       </div>
 
-      <!-- Routes -->
       <nav class="space-y-1 flex-1 overflow-y-auto">
         <template v-for="(route, i) in routeList" :key="i">
           <Button
@@ -90,7 +87,6 @@ const sidebarWidth = computed(() => (collapsed.value ? "w-16" : "w-64"));
         </template>
       </nav>
 
-      <!-- Bottom Controls -->
       <div v-if="!collapsed" class="mt-auto">
         <Separator class="my-2" />
         <ToggleTheme class="mb-2" />
@@ -103,7 +99,6 @@ const sidebarWidth = computed(() => (collapsed.value ? "w-16" : "w-64"));
       </div>
     </aside>
 
-    <!-- Mobile Sheet -->
     <div class="lg:hidden fixed top-4 left-4 z-50">
       <Sheet v-model:open="isOpen">
         <SheetTrigger as-child>

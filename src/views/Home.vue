@@ -107,6 +107,20 @@ onMounted(() => {
     <!-- Push page content down so it's not behind the fixed header -->
     <div class="pt-12">
       <Hero />
+      <section
+  class="container max-w-screen-xl mx-auto my-10 p-6 rounded-2xl bg-gray-100 border border-gray-300 text-gray-900 font-semibold text-center flex items-center justify-center space-x-3 shadow-md"
+  role="region"
+  aria-label="What is Wubby"
+>
+  <p class="m-0 text-lg max-w-xl">
+    Wubby is a ROBLOX building game where you can create your own worlds or play worlds created by the community. In Wubby, many tools exist for creating your own worlds, such as placing blocks, painting, transforming, editing, and adding custom logic!
+    Wubby also offers an easy-to-use wiring system, which allows you to create complex game mechanics and interactive systems to bring life to your worlds. The building tools are also intuitive and easy to use, making it easy for players of all levels to design amazing worlds.
+    Whether you are an experienced game developer or just starting, Wubby offers a fun and creative experience that allows you to explore your ideas and push the boundaries of the imaginable.
+
+    Wubby currently has a relatively small community compared to what was World Builder, its ancestor with only around <b>500 unique members</b> (Wubby, not World Builder)
+  </p>
+</section>
+
     </div>
   </main>
 </template>

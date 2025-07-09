@@ -5,7 +5,7 @@ import { Component } from "vue";
 import { SquareArrowOutUpRight } from "lucide-vue-next";
 
 export const IMAGE_CAROUSEL = { // FOR FUTURE REFERENCE, ONLY USE 1015x636 FOR THE RATIO
-    DELAY: 3500,
+    DELAY: 1500,
     IMAGES: [
         {
             id: 14159191425,

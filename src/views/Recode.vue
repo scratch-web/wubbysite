@@ -1,10 +1,14 @@
 <template>
-  <div class="pt-16 px-5 min-h-screen bg-black text-white font-sans text-center">
+  <div
+    class="pt-16 px-5 min-h-screen p-10 bg-muted/50 dark:bg-card border rounded-2xl text-white font-sans text-center mx-auto max-w-3xl"
+  >
     <div class="space-y-8">
       <div class="max-w-screen-md mx-auto text-5xl md:text-6xl font-bold">
         <h1>
-          <span class="text-transparent bg-gradient-to-r from-[#1e71a5] to-[#2eac75] bg-clip-text">
-            Wubby
+          <span
+            class="text-transparent bg-gradient-to-r from-[#1e71a5] to-[#2eac75] bg-clip-text"
+          >
+            Recode Timer
           </span>
         </h1>
       </div>
@@ -17,12 +21,12 @@
 
 <script>
 export default {
-  name: 'WubbyCountdown',
+  name: "WubbyCountdown",
   data() {
     return {
-      countdown: 'Loading...',
-      releaseDate: new Date('March 28, 2036 00:00:00').getTime(),
-      interval: null
+      countdown: "Loading...",
+      releaseDate: new Date("March 28, 2036 00:00:00").getTime(),
+      interval: null,
     };
   },
   mounted() {
@@ -38,7 +42,7 @@ export default {
       const diff = this.releaseDate - now;
 
       if (diff <= 0) {
-        this.countdown = 'Released!';
+        this.countdown = "Released!";
         clearInterval(this.interval);
         return;
       }
@@ -49,58 +53,14 @@ export default {
       const seconds = Math.floor((diff / 1000) % 60);
 
       this.countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-/* Replace body styles with container styles for scoped CSS */
-.bg-black {
-  background-color: #000;
-}
-.text-white {
-  color: white;
-}
-.font-sans {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.text-center {
-  text-align: center;
-}
-.space-y-8 > * + * {
-  margin-top: 2rem;
-}
-.max-w-screen-md {
-  max-width: 768px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.max-w-screen-sm {
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1.2;
-}
-.md\:text-6xl {
-  font-size: 3.75rem;
-}
-.font-bold {
-  font-weight: 700;
-}
+/* Keep your text-muted-foreground as a lighter color with some opacity */
 .text-muted-foreground {
-  color: #ffffff;
-  opacity: 0.8;
-}
-.bg-gradient-to-r {
-  background-image: linear-gradient(to right, #1e71a5, #2eac75);
-}
-.bg-clip-text {
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: rgba(255, 255, 255, 0.8);
 }
 </style>

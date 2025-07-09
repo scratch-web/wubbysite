@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Hero from "@/components/Hero.vue";
-import Statistics from "@/components/Statistics.vue";
+
 
 interface Bubble {
   id: number;
@@ -128,7 +128,7 @@ onMounted(() => {
     <!-- Push page content down so it's not behind the fixed header -->
     <div class="pt-12">
       <Hero />
-      <Statistics />
+
     </div>
   </main>
 </template>

@@ -22,6 +22,10 @@ export const IMAGE_CAROUSEL = { // FOR FUTURE REFERENCE, ONLY USE 1015x636 FOR T
         {
             id: 81930608228732,
             url: "https://files.catbox.moe/69k5jx.png"
+        },
+        {
+            id: 18170515127,
+            url: "hhttps://files.catbox.moe/tnz5kh.png"
         }
     ]
 }

@@ -1,19 +1,17 @@
 <template>
-  <div>
-  <div>
-  <div class="text-center space-y-8">
-    <div class="max-w-screen-md mx-auto text-center text-5xl md:text-6xl font-bold">
-      <h1>
-        <span class="text-transparent bg-gradient-to-r from-[#1e71a5] to-[#2eac75] bg-clip-text">
-          Wubby
-        </span>
-      </h1>
+  <div class="pt-16 px-5 min-h-screen bg-black text-white font-sans text-center">
+    <div class="space-y-8">
+      <div class="max-w-screen-md mx-auto text-5xl md:text-6xl font-bold">
+        <h1>
+          <span class="text-transparent bg-gradient-to-r from-[#1e71a5] to-[#2eac75] bg-clip-text">
+            Wubby
+          </span>
+        </h1>
+      </div>
+      <h2 class="max-w-screen-sm mx-auto text-xl text-muted-foreground">
+        Recode release date: <span>{{ countdown }}</span>
+      </h2>
     </div>
-    <h2 class="max-w-screen-sm mx-auto text-xl text-muted-foreground">
-      Recode release date: <span>{{ countdown }}</span>
-    </h2>
-  </div>
-  </div>
   </div>
 </template>
 
@@ -57,12 +55,15 @@ export default {
 </script>
 
 <style scoped>
-body {
+/* Replace body styles with container styles for scoped CSS */
+.bg-black {
   background-color: #000;
+}
+.text-white {
   color: white;
+}
+.font-sans {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  padding: 50px 20px;
 }
 .text-center {
   text-align: center;
@@ -92,6 +93,7 @@ body {
 }
 .text-muted-foreground {
   color: #ffffff;
+  opacity: 0.8;
 }
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, #1e71a5, #2eac75);

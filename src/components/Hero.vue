@@ -12,6 +12,26 @@ import axios from "axios";
 import { WubbyAPIWorldInfo } from "@/../global";
 import { LoaderCircle } from "lucide-vue-next";
 
+// BUBBLES
+const bubbles = ref<{ id: number; size: number; top: number; left: number; color: string; duration: number }[]>([]);
+
+function getRandomColor(): string {
+  const colors = ['#00ffcc', '#00ff99', '#33ffcc', '#3399ff', '#66ccff', '#00ccff'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function generateBubble(id: number) {
+  return {
+    id,
+    size: Math.floor(Math.random() * 200) + 100,
+    top: Math.random() * 100,
+    left: Math.random() * 100,
+    color: getRandomColor(),
+    duration: Math.random() * 5 + 3,
+  };
+}
+
+// WORLD DATA
 const worldData = ref<Record<number, (Omit<WubbyAPIWorldInfo, 'creator'> & {
   creator: {
     id: number;
@@ -24,6 +44,11 @@ const worldData = ref<Record<number, (Omit<WubbyAPIWorldInfo, 'creator'> & {
 const loadingImageDetails = ref<boolean>(true);
 
 onMounted(async () => {
+  // Init Bubbles
+  for (let i = 0; i < 20; i++) {
+    bubbles.value.push(generateBubble(i));
+  }
+
   try {
     const worldInfoPromises = IMAGE_CAROUSEL.IMAGES.map(async (image) => {
       const { data } = await axios.get(`https://api.wubbygame.com/v1/worldinfo/${image.id}`);
@@ -72,7 +97,26 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="container">
+  <section class="relative container overflow-hidden">
+    <!-- Bubble Background -->
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+      <div
+        v-for="bubble in bubbles"
+        :key="bubble.id"
+        class="absolute rounded-full opacity-40 animate-pulse"
+        :style="{
+          width: bubble.size + 'px',
+          height: bubble.size + 'px',
+          top: bubble.top + '%',
+          left: bubble.left + '%',
+          backgroundColor: bubble.color,
+          animationDuration: bubble.duration + 's',
+          filter: 'blur(40px)',
+        }"
+      ></div>
+    </div>
+
+    <!-- Original Content -->
     <div class="grid place-items-center lg:max-w-screen-xl gap-8 mx-auto py-20 md:py-32">
       <div class="text-center space-y-8">
         <div class="max-w-screen-md mx-auto text-center text-5xl md:text-6xl font-bold">
@@ -92,16 +136,14 @@ onMounted(async () => {
       <div class="relative group mt-14">
         <div class="absolute top-2 lg:-top-8 left-1/2 transform -translate-x-1/2 w-[90%] mx-auto h-24 lg:h-80 bg-primary/50 rounded-full blur-3xl"></div>
         <Carousel
-          class="w-full mx-auto rounded-lg relative rouded-lg leading-none flex items-center border border-t-2 border-t-primary/30"
+          class="w-full mx-auto rounded-lg relative leading-none flex items-center border border-t-2 border-t-primary/30"
           :plugins="[
             Autoplay({
               delay: IMAGE_CAROUSEL.DELAY,
               stopOnInteraction: false
             })
           ]"
-          :opts="{
-            loop: true,
-          }"
+          :opts="{ loop: true }"
         >
           <CarouselContent class="rounded-lg">
             <CarouselItem v-for="(image, index) in IMAGE_CAROUSEL.IMAGES" :key="index">
@@ -120,8 +162,26 @@ onMounted(async () => {
             </CarouselItem>
           </CarouselContent>
         </Carousel>
-        
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse {
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+</style>

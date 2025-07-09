@@ -83,7 +83,7 @@ onMounted(() => {
   <main class="relative min-h-screen overflow-hidden">
     <!-- Warning header banner -->
     <div class="fixed top-0 left-0 w-full bg-yellow-400 text-yellow-900 font-semibold text-center py-2 z-50 shadow-md">
-      ⚠️ Since ownership has been transferred, multiple changes and restyling to the website will be coming soon.
+      Since ownership has been transferred, multiple changes and restyling to the website will be coming soon.
     </div>
 
     <!-- Bubbles behind all content -->

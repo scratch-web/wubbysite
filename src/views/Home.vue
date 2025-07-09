@@ -2,7 +2,6 @@
 import { ref, onMounted } from "vue";
 import Hero from "@/components/Hero.vue";
 
-
 interface Bubble {
   id: number;
   baseTop: number;
@@ -19,7 +18,7 @@ interface Bubble {
 const bubbles = ref<Bubble[]>([]);
 
 function getRandomColor(): string {
-  const colors = ['#00ffcc', '#00ff99', '#33ffcc', '#3399ff', '#66ccff', '#00ccff'];
+  const colors = ['#00ffcc', '#00ff99', '#33ccff', '#3399ff', '#66ccff', '#00ccff'];
   return colors[Math.floor(Math.random() * colors.length)];
 }
 
@@ -80,33 +79,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-  class="fixed top-0 left-0 w-full bg-yellow-400 text-yellow-900 font-semibold text-center py-2 z-50 shadow-md flex items-center justify-center space-x-2"
-  aria-live="polite"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="h-5 w-5 inline-block"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    stroke-width="2"
-    aria-hidden="true"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="M12 8v4m0 4h.01M4.93 19.07a9 9 0 1114.14 0L12 21l-7.07-1.93z"
-    />
-  </svg>
-  <span>Since ownership has been transferred, multiple changes and restyling to the website will be coming soon.</span>
-</div>
+  <main>
+    <!-- Warning header banner -->
+    <div
+      class="fixed top-0 left-0 w-full bg-yellow-400 text-yellow-900 font-semibold text-center py-2 z-50 shadow-md flex items-center justify-center space-x-2"
+      aria-live="polite"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5 inline-block"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 8v4m0 4h.01M4.93 19.07a9 9 0 1114.14 0L12 21l-7.07-1.93z"
+        />
+      </svg>
+      <span
+        >Since ownership has been transferred, multiple changes and restyling to
+        the website will be coming soon.</span
+      >
+    </div>
 
     <!-- Bubbles behind all content -->
     <div
       class="fixed inset-0 -z-10 pointer-events-none overflow-hidden"
       aria-hidden="true"
-      style="padding-top: 2.75rem;" 
+      style="padding-top: 2.75rem;"
     >
       <div
         v-for="bubble in bubbles"
@@ -118,8 +122,10 @@ onMounted(() => {
           top: bubble.top + '%',
           left: bubble.left + '%',
           backgroundColor: bubble.color,
-          filter: bubble.merged ? 'blur(50px) brightness(1.2)' : 'blur(40px)',
-          boxShadow: bubble.merged ? `0 0 30px 15px ${bubble.color}` : 'none',
+          filter: bubble.merged
+            ? 'blur(50px) brightness(1.2)'
+            : 'blur(40px)',
+          boxShadow: bubble.merged ? '0 0 30px 15px ' + bubble.color : 'none',
           transform: bubble.merged ? 'scale(1.1)' : 'scale(1)',
         }"
       ></div>
@@ -128,7 +134,6 @@ onMounted(() => {
     <!-- Push page content down so it's not behind the fixed header -->
     <div class="pt-12">
       <Hero />
-
     </div>
   </main>
 </template>

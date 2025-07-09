@@ -26,7 +26,7 @@ import Separator from "./ui/separator/Separator.vue";
           <h3 class="font-bold text-lg">Help</h3>
           <div>
             <a
-              href="mailto:casualmorehere@gmail.com"
+              href="mailto:admin@wubbygame.com"
               class="opacity-60 hover:opacity-100"
             >
               Contact Us

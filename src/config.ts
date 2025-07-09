@@ -1,6 +1,7 @@
 import Home from "@/views/Home.vue"
 import Worlds from "@/views/Worlds.vue";
 import NotFound from "@/views/NotFound.vue";
+import Recode from "@/views/Recode.vue";
 import { Component } from "vue";
 import { SquareArrowOutUpRight } from "lucide-vue-next";
 
@@ -50,6 +51,12 @@ export const routeList: { href: string, label: string, component?: Component, ic
         href: "https://wiki.wubbygame.com",
         label: "Wiki",
         iconSuffix: SquareArrowOutUpRight
+    },
+        {
+        href: "/recode",
+        label: "Recode",
+        component: Recode,
+        hidden: true
     },
     {
         href: "/:pathMatch(.*)*",

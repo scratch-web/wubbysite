@@ -108,7 +108,7 @@ onMounted(() => {
     <div class="pt-12">
       <Hero />
 <section
-  class="container max-w-screen-xl mx-auto my-10 p-6 rounded-2xl bg-gray-100 border border-gray-300 text-gray-900 font-semibold text-center flex items-center justify-center space-x-3 shadow-md"
+  class="container max-w-screen-xl mx-auto my-10 p-6 rounded-2xl bg-black border border-gray-800 text-gray-200 font-semibold text-center flex items-center justify-center space-x-3 shadow-md"
   role="region"
   aria-label="What is Wubby"
 >

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pt-16 px-5 min-h-screen p-10 bg-muted/50 dark:bg-card border rounded-2xl text-white font-sans text-center mx-auto max-w-3xl"
+    class="pt-16 px-5 h-1/4 p-10 bg-muted/50 dark:bg-card border rounded-2xl text-white font-sans text-center mx-auto max-w-3xl"
   >
     <div class="space-y-8">
       <div class="max-w-screen-md mx-auto text-5xl md:text-6xl font-bold">

@@ -39,7 +39,7 @@ const mainMargin = computed(() => (collapsed.value ? "ml-16" : "ml-64"));
       <div class="flex items-center justify-between mb-6">
         <RouterLink to="/" class="flex items-center space-x-2">
           <img src="/src/assets/favicon.svg" width="24" height="24" />
-          <span v-if="!collapsed" class="font-bold text-xl">MySite</span>
+          <span v-if="!collapsed" class="font-bold text-xl">Wubby</span>
         </RouterLink>
         <Button
           variant="ghost"
@@ -161,11 +161,11 @@ const mainMargin = computed(() => (collapsed.value ? "ml-16" : "ml-64"));
       </Sheet>
     </div>
 
-    <!-- Main Content -->
-    <main
-      class="min-h-screen p-6 transition-all duration-300 ease-in-out overflow-y-auto"
-      :class="mainMargin"
-    >
+  <main
+    class="min-h-screen p-6 transition-all duration-300 ease-in-out overflow-y-auto"
+    :class="['ml-0', { 'lg:ml-64': !collapsed, 'lg:ml-16': collapsed }]"
+  >
+
       <slot />
     </main>
   </div>

@@ -81,10 +81,16 @@ onMounted(() => {
 
 <template>
   <main class="relative min-h-screen overflow-hidden">
+    <!-- Warning header banner -->
+    <div class="fixed top-0 left-0 w-full bg-yellow-400 text-yellow-900 font-semibold text-center py-2 z-50 shadow-md">
+      ⚠️ Since ownership has been transferred, multiple changes and restyling to the website will be coming soon.
+    </div>
+
     <!-- Bubbles behind all content -->
     <div
       class="fixed inset-0 -z-10 pointer-events-none overflow-hidden"
       aria-hidden="true"
+      style="padding-top: 2.75rem;"  <!-- offset so bubbles don't appear behind banner -->
     >
       <div
         v-for="bubble in bubbles"
@@ -103,12 +109,14 @@ onMounted(() => {
       ></div>
     </div>
 
-    <!-- Your page content -->
-    <Hero />
-    <Statistics />
+    <!-- Push page content down so it's not behind the fixed header -->
+    <div class="pt-12">
+      <Hero />
+      <Statistics />
+    </div>
   </main>
 </template>
 
 <style scoped>
-/* No extra CSS needed here */
+/* Optional: smooth the fixed banner's shadow */
 </style>

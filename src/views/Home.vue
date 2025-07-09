@@ -80,31 +80,32 @@ onMounted(() => {
 
 <template>
   <main>
-    <!-- Warning header banner -->
-    <div
-      class="fixed top-0 left-0 w-full bg-yellow-400 text-yellow-900 font-semibold text-center py-2 z-50 shadow-md flex items-center justify-center space-x-2"
-      aria-live="polite"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5 inline-block"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 8v4m0 4h.01M4.93 19.07a9 9 0 1114.14 0L12 21l-7.07-1.93z"
-        />
-      </svg>
-      <span
-        >Since ownership has been transferred, multiple changes and restyling to
-        the website will be coming soon.</span
-      >
-    </div>
+   <!-- Warning box -->
+<section
+  class="container max-w-screen-xl mx-auto my-10 p-6 rounded-2xl bg-yellow-100 border border-yellow-400 text-yellow-900 font-semibold text-center flex items-center justify-center space-x-3 shadow-md"
+  role="alert"
+  aria-live="polite"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-6 w-6 flex-shrink-0"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M12 8v4m0 4h.01M4.93 19.07a9 9 0 1114.14 0L12 21l-7.07-1.93z"
+    />
+  </svg>
+  <p class="m-0 text-lg max-w-xl">
+    Since ownership has been transferred, multiple changes and restyling to the website will be coming soon.
+  </p>
+</section>
+
 
     <!-- Bubbles behind all content -->
     <div

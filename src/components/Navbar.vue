@@ -25,7 +25,6 @@ const isOpen = ref(false);
 const collapsed = ref(false);
 
 const sidebarWidth = computed(() => (collapsed.value ? "w-16" : "w-64"));
-const mainMargin = computed(() => (collapsed.value ? "ml-16" : "ml-64"));
 </script>
 
 <template>

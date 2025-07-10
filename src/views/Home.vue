@@ -17,6 +17,7 @@ interface Bubble {
 
 const bubbles = ref<Bubble[]>([]);
 const audioRef = ref<HTMLAudioElement | null>(null);
+const presenceCount = ref(0);
 
 function getRandomColor(): string {
   const colors = ['#00ffcc', '#00ff99', '#33ccff', '#3399ff', '#66ccff', '#00ccff'];
@@ -74,10 +75,20 @@ function unmuteOnInteraction() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   for (let i = 0; i < 20; i++) {
     bubbles.value.push(generateBubble(i));
   }
+
+  try {
+    const res = await fetch('https://discord.com/api/guilds/1049644155246227466/widget.json');
+    const data = await res.json();
+    presenceCount.value = data.presence_count;
+  } catch (err) {
+    console.error('Error fetching Discord widget:', err);
+  }
+});
+
 
   function loop() {
     updateBubbles();
@@ -87,6 +98,8 @@ onMounted(() => {
 
   window.addEventListener('click', unmuteOnInteraction);
 });
+
+
 </script>
 
 <template>
@@ -127,7 +140,7 @@ onMounted(() => {
           Wubby also offers an easy-to-use wiring system, which allows you to create complex game mechanics and interactive systems to bring life to your worlds. The building tools are also intuitive and easy to use, making it easy for players of all levels to design amazing worlds.
           Whether you are an experienced game developer or just starting, Wubby offers a fun and creative experience that allows you to explore your ideas and push the boundaries of the imaginable.
           <br /><br />
-          Wubby currently has a relatively small community compared to what was World Builder, its ancestor with only around <b>500 unique members</b> (Wubby, not World Builder).
+          Wubby currently has a relatively small community compared to what was World Builder, its ancestor with only around <b>{{ presenceCount }}</b> reocurring members (Wubby, not World Builder).
         </p>
       </section>
     </div>

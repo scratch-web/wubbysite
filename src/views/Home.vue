@@ -97,7 +97,6 @@ onMounted(async () => {
   loop();
 
   window.addEventListener('click', unmuteOnInteraction);
-});
 
 
 </script>

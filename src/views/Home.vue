@@ -26,12 +26,15 @@ function getRandomColor(): string {
 
 function generateBubble(id: number): Bubble {
   const size = Math.floor(Math.random() * 100) + 80;
+  const baseTop = Math.random() * 80 + 10;
+  const baseLeft = Math.random() * 80 + 10;
+
   return {
     id,
-    baseTop: Math.random() * 80 + 10,
-    baseLeft: Math.random() * 80 + 10,
-    top: 0,
-    left: 0,
+    baseTop,
+    baseLeft,
+    top: baseTop,
+    left: baseLeft,
     size,
     color: getRandomColor(),
     dx: (Math.random() - 0.5) * 0.1,
@@ -39,6 +42,7 @@ function generateBubble(id: number): Bubble {
     merged: false,
   };
 }
+
 
 function updateBubbles() {
   for (const b of bubbles.value) {

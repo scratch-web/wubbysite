@@ -1,4 +1,24 @@
 <script setup lang="ts">
+
+const bannedQueries = [
+    "transfur", "yiff", "furry rp", "condo", "nsfw", "fetish", "vore", "futa",
+    "erotica", "erp", "e-rp", "e rp", "inflation", "rule34", "knot", "ych",
+    "cub", "mlp rp", "ddlg", "paw", "pawjob", "feet", "toes", "tickle",
+    "slime rp", "slime girl", "latex", "bondage", "collar", "petplay",
+    "boob", "tits", "cock", "dick", "penis", "vagina", "butt", "anal", "sex",
+    "s3x", "s*x"
+];
+
+const normalizeQuery = (str: string) =>
+    str
+        .toLowerCase()
+        .replace(/[@]/g, 'a')
+        .replace(/[1!|]/g, 'i')
+        .replace(/[$]/g, 's')
+        .replace(/[3]/g, 'e')
+        .replace(/[*]/g, '')
+        .replace(/\s+/g, '');
+    
 import { ref } from 'vue';
 import { useColorMode } from '@vueuse/core';
 
@@ -14,67 +34,19 @@ const skeletonCount = ref(0);
 const searchResults = ref();
 const creatorInfos = ref();
 
-    const bannedQueries = [
-    "transfur",
-    "yiff",
-    "furry rp",
-    "condo",
-    "cons",
-    "nsfw",
-    "fetish",
-    "vore",
-    "futa",
-    "yoshi rp",
-    "erotica",
-    "erp",
-    "e-rp",
-    "e rp",
-    "inflation",
-    "rule34",
-    "yiff",
-    "knot",
-    "ych",
-    "cub",
-    "mlp rp",
-    "daddy dom",
-    "ddlg",
-    "paw",
-    "pawjob",
-    "feet",
-    "toes",
-    "tickle",
-    "slime rp",
-    "slime girl",
-    "latex",
-    "bondage",
-    "collar",
-    "petplay",
-    "kennel",
-    "nsfl",
-    "boob",
-    "tits",
-    "cock",
-    "dick",
-    "penis",
-    "vagina",
-    "butt",
-    "anal",
-    "sex",
-    "s3x",
-    "s*x"
-];
-
 
 const searchWorld = async (query: string) => {
     if (loading.value || !query || query.length < 3) {
         searchResults.value = !query || query.length < 3 ? [false, "Search query must be at least 3 characters long"] : null;
         return;
     }
-    const lowerQuery = query.toLowerCase();
-        if (bannedQueries.some(banned => lowerQuery.includes(banned))) {
-        searchResults.value = [false, "No results found (my guy, no fetishes)"];
-        return;
-    }
+    const normalized = normalizeQuery(query);
+
+if (bannedQueries.some(bad => normalized.includes(normalizeQuery(bad)))) {
+    searchResults.value = [false, "This search term is not allowed."];
+    return;
+}
+
     loading.value = true;
     searchResults.value = null;
     

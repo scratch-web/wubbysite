@@ -43,7 +43,7 @@ const searchWorld = async (query: string) => {
     const normalized = normalizeQuery(query);
 
 if (bannedQueries.some(bad => normalized.includes(normalizeQuery(bad)))) {
-    searchResults.value = [false, "This search term is not allowed."];
+    searchResults.value = [false, "This request is too evil to handle"];
     return;
 }
 

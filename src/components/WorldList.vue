@@ -1,13 +1,25 @@
 <script setup lang="ts">
 
 const bannedQueries = [
-    "transfur", "yiff", "furry rp", "condo", "nsfw", "fetish", "vore", "futa",
-    "erotica", "erp", "e-rp", "e rp", "inflation", "rule34", "knot", "ych",
-    "cub", "mlp rp", "ddlg", "paw", "pawjob", "feet", "toes", "tickle",
-    "slime rp", "slime girl", "latex", "bondage", "collar", "petplay",
-    "boob", "tits", "cock", "dick", "penis", "vagina", "butt", "anal", "sex",
-    "s3x", "s*x"
+    // NSFW and explicit content
+    "porn", "hentai", "sex", "erotica", "nsfw", "lewd", "nude", "nudes", "naked", "xxx", "rule34", "r34",
+
+    // Erotic roleplay
+    "erp", "e rp", "e-rp", "furry rp", "mlp rp", "slime rp", "dating rp", "online dating",
+
+    // Fetishes
+    "fetish", "vore", "inflation", "bondage", "ddlg", "abdl", "ageplay", "babyfur", "diaper", "tickle", "feet", "foot", "toes", "paw", "pawjob", "petplay", "collar", "leash", "latex", "knot", "tentacle", "tentacles", "heat", "breed", "breeding", "impregnate", "milking",
+
+    // Furry & related
+    "yiff", "transfur", "ych", "slime girl", "futa", "futa girl", "omega", "alpha",
+
+    // Explicit anatomy
+    "boob", "boobs", "tits", "nipples", "cock", "dick", "penis", "vagina", "pussy", "anal", "butt", "ass", "cum", "orgasm",
+
+    // Community abuse / exploit terms
+    "condo", "condo game", "sex game", "sex hangout", "strip", "strip game", "private show", "dating sim"
 ];
+
 
 const normalizeQuery = (str: string) =>
     str

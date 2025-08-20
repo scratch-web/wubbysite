@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import Hero from "@/components/Hero.vue";
 
 
+// Bubble type (keep in your codebase wherever you already define types)
 interface Bubble {
   id: number
   baseTop: number
@@ -107,6 +108,7 @@ function updateBubbles(bubbles: Bubble[]) {
     }
   }
 }
+
 
 
 function unmuteOnInteraction() {

@@ -69,6 +69,7 @@ function updateBubbles() {
 }
 
 
+
 function unmuteOnInteraction() {
   if (audioRef.value) {
     audioRef.value.muted = false;

@@ -21,7 +21,43 @@ const presenceCount = ref(0);
 
 function getRandomColor(): string {
   const colors = ['#00ffcc', '#00ff99', '#33ccff', '#3399ff', '#66ccff', '#00ccff'];
-  return colors[Math.floor(Math.random() * colors.length)];
+  const base = colors[Math.floor(Math.random() * colors.length)];
+  // Dimmer version by adding transparency
+  return base + '80'; // appends "80" for ~50% alpha (hex RGBA)
+}
+
+function blendColors(c1: string, c2: string): string {
+  // Convert hex with optional alpha to rgba
+  function hexToRgba(hex: string): [number, number, number, number] {
+    let h = hex.replace('#', '');
+    if (h.length === 6) h += 'ff';
+    const bigint = parseInt(h, 16);
+    return [
+      (bigint >> 24) & 255,
+      (bigint >> 16) & 255,
+      (bigint >> 8) & 255,
+      bigint & 255,
+    ];
+  }
+
+  function rgbaToHex(r: number, g: number, b: number, a: number) {
+    return (
+      '#' +
+      [r, g, b, a]
+        .map((x) => x.toString(16).padStart(2, '0'))
+        .join('')
+    );
+  }
+
+  const [r1, g1, b1, a1] = hexToRgba(c1);
+  const [r2, g2, b2, a2] = hexToRgba(c2);
+
+  return rgbaToHex(
+    Math.floor((r1 + r2) / 2),
+    Math.floor((g1 + g2) / 2),
+    Math.floor((b1 + b2) / 2),
+    Math.floor((a1 + a2) / 2)
+  );
 }
 
 function generateBubble(id: number): Bubble {
@@ -39,12 +75,11 @@ function generateBubble(id: number): Bubble {
     color: getRandomColor(),
     dx: (Math.random() - 0.5) * 0.1,
     dy: (Math.random() - 0.5) * 0.1,
-    merged: false,
   };
 }
 
-
 function updateBubbles() {
+  // Move
   for (const b of bubbles.value) {
     b.top = b.baseTop + Math.sin(Date.now() / 1000 + b.id) * 2;
     b.left = b.baseLeft + Math.cos(Date.now() / 1000 + b.id) * 2;
@@ -56,20 +91,35 @@ function updateBubbles() {
     if (b.baseLeft < 5 || b.baseLeft > 95) b.dx = -b.dx;
   }
 
-  for (const b of bubbles.value) b.merged = false;
-
+  // Merge detection
   for (let i = 0; i < bubbles.value.length; i++) {
     for (let j = i + 1; j < bubbles.value.length; j++) {
       const a = bubbles.value[i];
       const b = bubbles.value[j];
       const dist = Math.hypot(a.left - b.left, a.top - b.top);
       if (dist < (a.size + b.size) / 50) {
-        a.merged = true;
-        b.merged = true;
+        // Create new merged bubble
+        const newBubble: Bubble = {
+          id: Date.now() + Math.random(),
+          top: (a.top + b.top) / 2,
+          left: (a.left + b.left) / 2,
+          baseTop: (a.baseTop + b.baseTop) / 2,
+          baseLeft: (a.baseLeft + b.baseLeft) / 2,
+          size: Math.sqrt(a.size * a.size + b.size * b.size), // combine area
+          color: blendColors(a.color, b.color),
+          dx: (a.dx + b.dx) / 2,
+          dy: (a.dy + b.dy) / 2,
+        };
+
+        // Replace old ones with the new one
+        bubbles.value.splice(j, 1);
+        bubbles.value.splice(i, 1, newBubble);
+        return; // exit so indices don't break
       }
     }
   }
 }
+
 
 function unmuteOnInteraction() {
   if (audioRef.value) {

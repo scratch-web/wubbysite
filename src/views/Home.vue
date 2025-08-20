@@ -55,11 +55,13 @@ function generateBubble(id: number): Bubble {
 function updateBubbles() {
   // movement + floating
   for (const b of bubbles.value) {
-    b.top = b.baseTop + Math.sin(Date.now() / 1000 + b.id) * 2;
-    b.left = b.baseLeft + Math.cos(Date.now() / 1000 + b.id) * 2;
+    // smaller floating effect
+    b.top = b.baseTop + Math.sin(Date.now() / 1200 + b.id) * 1.2;
+    b.left = b.baseLeft + Math.cos(Date.now() / 1200 + b.id) * 1.2;
 
-    b.baseTop += b.dy;
-    b.baseLeft += b.dx;
+    // slower movement
+    b.baseTop += b.dy * 0.5;   // reduced from original 1x
+    b.baseLeft += b.dx * 0.5;
 
     if (b.baseTop < 5 || b.baseTop > 95) b.dy = -b.dy;
     if (b.baseLeft < 5 || b.baseLeft > 95) b.dx = -b.dx;
@@ -75,7 +77,6 @@ function updateBubbles() {
       const dist = Math.hypot(a.left - b.left, a.top - b.top);
 
       if (dist < (a.size + b.size) / 50) {
-        // mark both as merged
         a.merged = true;
         b.merged = true;
 

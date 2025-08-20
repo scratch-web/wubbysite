@@ -2,57 +2,41 @@
 import { ref, onMounted } from "vue";
 import Hero from "@/components/Hero.vue";
 
-
-// Bubble type (keep in your codebase wherever you already define types)
+// Define Bubble type
 interface Bubble {
-  id: number
-  baseTop: number
-  baseLeft: number
-  top: number
-  left: number
-  size: number
-  color: string
-  dx: number
-  dy: number
+  id: number;
+  baseTop: number;
+  baseLeft: number;
+  top: number;
+  left: number;
+  size: number;
+  color: string;
+  dx: number;
+  dy: number;
+  merged: boolean;
 }
 
-// get dimmer random color
+const bubbles = ref<Bubble[]>([]);
+const audioRef = ref<HTMLAudioElement | null>(null);
+const presenceCount = ref(0);
+
 function getRandomColor(): string {
+  // Dimmer, semi-transparent versions of your colors
   const colors = [
-    'rgba(0, 255, 204, 0.6)',
-    'rgba(0, 255, 153, 0.6)',
-    'rgba(51, 204, 255, 0.6)',
-    'rgba(51, 153, 255, 0.6)',
-    'rgba(102, 204, 255, 0.6)',
-    'rgba(0, 204, 255, 0.6)',
-  ]
-  return colors[Math.floor(Math.random() * colors.length)]
+    'rgba(0, 255, 204, 0.4)',
+    'rgba(0, 255, 153, 0.4)',
+    'rgba(51, 204, 255, 0.4)',
+    'rgba(51, 153, 255, 0.4)',
+    'rgba(102, 204, 255, 0.4)',
+    'rgba(0, 204, 255, 0.4)',
+  ];
+  return colors[Math.floor(Math.random() * colors.length)];
 }
 
-// blend two rgba colors
-function blendColors(c1: string, c2: string): string {
-  const parse = (c: string) =>
-    c
-      .replace(/[rgba()]/g, '')
-      .split(',')
-      .map((n) => parseFloat(n.trim()))
-
-  const [r1, g1, b1, a1 = 1] = parse(c1)
-  const [r2, g2, b2, a2 = 1] = parse(c2)
-
-  const r = Math.floor((r1 + r2) / 2)
-  const g = Math.floor((g1 + g2) / 2)
-  const b = Math.floor((b1 + b2) / 2)
-  const a = (a1 + a2) / 2
-
-  return `rgba(${r}, ${g}, ${b}, ${a})`
-}
-
-// make a bubble
 function generateBubble(id: number): Bubble {
-  const size = Math.floor(Math.random() * 100) + 80
-  const baseTop = Math.random() * 80 + 10
-  const baseLeft = Math.random() * 80 + 10
+  const size = Math.floor(Math.random() * 100) + 80;
+  const baseTop = Math.random() * 80 + 10;
+  const baseLeft = Math.random() * 80 + 10;
 
   return {
     id,
@@ -64,46 +48,55 @@ function generateBubble(id: number): Bubble {
     color: getRandomColor(),
     dx: (Math.random() - 0.5) * 0.1,
     dy: (Math.random() - 0.5) * 0.1,
-  }
+    merged: false,
+  };
 }
 
-// update + merging logic
-function updateBubbles(bubbles: Bubble[]) {
-  // movement
-  for (const b of bubbles) {
-    b.top = b.baseTop + Math.sin(Date.now() / 1000 + b.id) * 2
-    b.left = b.baseLeft + Math.cos(Date.now() / 1000 + b.id) * 2
+function updateBubbles() {
+  // movement + floating
+  for (const b of bubbles.value) {
+    b.top = b.baseTop + Math.sin(Date.now() / 1000 + b.id) * 2;
+    b.left = b.baseLeft + Math.cos(Date.now() / 1000 + b.id) * 2;
 
-    b.baseTop += b.dy
-    b.baseLeft += b.dx
+    b.baseTop += b.dy;
+    b.baseLeft += b.dx;
 
-    if (b.baseTop < 5 || b.baseTop > 95) b.dy = -b.dy
-    if (b.baseLeft < 5 || b.baseLeft > 95) b.dx = -b.dx
+    if (b.baseTop < 5 || b.baseTop > 95) b.dy = -b.dy;
+    if (b.baseLeft < 5 || b.baseLeft > 95) b.dx = -b.dx;
+
+    b.merged = false; // reset merge state
   }
 
-  // merging
-  for (let i = 0; i < bubbles.length; i++) {
-    for (let j = i + 1; j < bubbles.length; j++) {
-      const a = bubbles[i]
-      const b = bubbles[j]
-      const dist = Math.hypot(a.left - b.left, a.top - b.top)
+  // merging logic
+  for (let i = 0; i < bubbles.value.length; i++) {
+    for (let j = i + 1; j < bubbles.value.length; j++) {
+      const a = bubbles.value[i];
+      const b = bubbles.value[j];
+      const dist = Math.hypot(a.left - b.left, a.top - b.top);
 
       if (dist < (a.size + b.size) / 50) {
-        const merged: Bubble = {
-          id: Date.now() + Math.random(),
-          top: (a.top + b.top) / 2,
-          left: (a.left + b.left) / 2,
-          baseTop: (a.baseTop + b.baseTop) / 2,
-          baseLeft: (a.baseLeft + b.baseLeft) / 2,
-          size: Math.sqrt(a.size * a.size + b.size * b.size), // area combine
-          color: blendColors(a.color, b.color),
-          dx: (a.dx + b.dx) / 2,
-          dy: (a.dy + b.dy) / 2,
-        }
+        // mark both as merged
+        a.merged = true;
+        b.merged = true;
 
-        bubbles.splice(j, 1)
-        bubbles.splice(i, 1, merged)
-        return // restart loop to avoid index issues
+        // blend colors
+        const parse = (c: string) =>
+          c.replace(/[rgba()]/g, '').split(',').map(n => parseFloat(n.trim()));
+        const [r1,g1,b1,a1] = parse(a.color);
+        const [r2,g2,b2,a2] = parse(b.color);
+        const r = Math.floor((r1+r2)/2);
+        const g = Math.floor((g1+g2)/2);
+        const bl = Math.floor((b1+b2)/2);
+        const alpha = (a1 + a2)/2;
+        const blended = `rgba(${r},${g},${bl},${alpha})`;
+
+        a.color = blended;
+        b.color = blended;
+
+        // grow sizes slightly
+        const growAmount = Math.sqrt(a.size*a.size + b.size*b.size) * 0.05;
+        a.size += growAmount;
+        b.size += growAmount;
       }
     }
   }

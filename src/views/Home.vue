@@ -53,15 +53,14 @@ function generateBubble(id: number): Bubble {
 }
 
 function updateBubbles() {
-  // movement + floating
   for (const b of bubbles.value) {
-    // smaller floating effect
-    b.top = b.baseTop + Math.sin(Date.now() / 1200 + b.id) * 1.2;
-    b.left = b.baseLeft + Math.cos(Date.now() / 1200 + b.id) * 1.2;
+    // floating effect (very tiny)
+    b.top = b.baseTop + Math.sin(Date.now() / 2000 + b.id) * 0.5;
+    b.left = b.baseLeft + Math.cos(Date.now() / 2000 + b.id) * 0.5;
 
     // slower movement
-    b.baseTop += b.dy * 0.5;   // reduced from original 1x
-    b.baseLeft += b.dx * 0.5;
+    b.baseTop += b.dy * 0.02;
+    b.baseLeft += b.dx * 0.02;
 
     if (b.baseTop < 5 || b.baseTop > 95) b.dy = -b.dy;
     if (b.baseLeft < 5 || b.baseLeft > 95) b.dx = -b.dx;
@@ -69,14 +68,13 @@ function updateBubbles() {
     b.merged = false; // reset merge state
   }
 
-  // merging logic
   for (let i = 0; i < bubbles.value.length; i++) {
     for (let j = i + 1; j < bubbles.value.length; j++) {
       const a = bubbles.value[i];
       const b = bubbles.value[j];
       const dist = Math.hypot(a.left - b.left, a.top - b.top);
 
-      if (dist < (a.size + b.size) / 50) {
+      if (dist < (a.size + b.size) / 100) { // smaller threshold
         a.merged = true;
         b.merged = true;
 
@@ -88,20 +86,21 @@ function updateBubbles() {
         const r = Math.floor((r1+r2)/2);
         const g = Math.floor((g1+g2)/2);
         const bl = Math.floor((b1+b2)/2);
-        const alpha = (a1 + a2)/2;
+        const alpha = (a1+a2)/2;
         const blended = `rgba(${r},${g},${bl},${alpha})`;
 
         a.color = blended;
         b.color = blended;
 
-        // grow sizes slightly
-        const growAmount = Math.sqrt(a.size*a.size + b.size*b.size) * 0.05;
-        a.size += growAmount;
-        b.size += growAmount;
+        // grow slightly, capped
+        const growAmount = Math.min(Math.sqrt(a.size*a.size + b.size*b.size)*0.005, 15);
+        a.size = Math.min(a.size + growAmount, 150);
+        b.size = Math.min(b.size + growAmount, 150);
       }
     }
   }
 }
+
 
 
 

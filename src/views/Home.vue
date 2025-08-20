@@ -59,8 +59,8 @@ function updateBubbles() {
     b.left = b.baseLeft + Math.cos(Date.now() / 2000 + b.id) * 0.5;
 
     // slower movement
-    b.baseTop += b.dy * 0.02;
-    b.baseLeft += b.dx * 0.02;
+    b.baseTop += b.dy * 0.1;
+    b.baseLeft += b.dx * 0.1;
 
     if (b.baseTop < 5 || b.baseTop > 95) b.dy = -b.dy;
     if (b.baseLeft < 5 || b.baseLeft > 95) b.dx = -b.dx;

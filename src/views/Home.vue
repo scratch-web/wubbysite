@@ -2,11 +2,26 @@
 import { ref, onMounted } from "vue";
 import Hero from "@/components/Hero.vue";
 
+// Define Bubble type
+interface Bubble {
+  id: number;
+  baseTop: number;
+  baseLeft: number;
+  top: number;
+  left: number;
+  size: number;
+  color: string;
+  dx: number;
+  dy: number;
+  merged: boolean;
+}
+
 const bubbles = ref<Bubble[]>([]);
 const audioRef = ref<HTMLAudioElement | null>(null);
 const presenceCount = ref(0);
 
 function getRandomColor(): string {
+  // Dimmer, semi-transparent versions of your colors
   const colors = [
     'rgba(0, 255, 204, 0.4)',
     'rgba(0, 255, 153, 0.4)',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FileQuestion } from 'lucide-vue-next';
+import { Gavel } from 'lucide-vue-next';
 </script>
 
 <template>

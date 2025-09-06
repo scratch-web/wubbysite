@@ -59,7 +59,6 @@ export default {
 </script>
 
 <style scoped>
-/* Keep your text-muted-foreground as a lighter color with some opacity */
 .text-muted-foreground {
   color: rgba(255, 255, 255, 0.8);
 }

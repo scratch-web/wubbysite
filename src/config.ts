@@ -1,3 +1,4 @@
+import Down from "*/views/Down.Vue"
 import Home from "@/views/Home.vue"
 import Worlds from "@/views/Worlds.vue";
 import NotFound from "@/views/NotFound.vue";
@@ -51,8 +52,8 @@ export const IMAGE_CAROUSEL = { // FOR FUTURE REFERENCE, ONLY USE 1015x636 FOR T
 export const routeList: { href: string, label: string, component?: Component, iconPrefix?: Component, iconSuffix?: Component, hidden?: boolean }[] = [
     {
         href: "/",
-        label: "Home",
-        component: Home,
+        label: "Down",
+        component: Down,
         hidden: true
     },
     {

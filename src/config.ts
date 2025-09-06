@@ -1,5 +1,4 @@
 import Down from "@/views/Down.Vue"
-import Home from "@/views/Home.vue"
 import Worlds from "@/views/Worlds.vue";
 import NotFound from "@/views/NotFound.vue";
 import Recode from "@/views/Recode.vue";

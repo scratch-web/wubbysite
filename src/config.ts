@@ -1,7 +1,7 @@
-import Down from "@/views/Down.vue"
-import Worlds from "@/views/Worlds.vue";
-import NotFound from "@/views/NotFound.vue";
-import Recode from "@/views/Recode.vue";
+import Home from "@/views/Down.vue"
+import Worlds from "@/views/Down.vue";
+import NotFound from "@/views/Down.vue";
+import Recode from "@/views/Down.vue";
 import { Component } from "vue";
 import { SquareArrowOutUpRight } from "lucide-vue-next";
 
@@ -51,8 +51,8 @@ export const IMAGE_CAROUSEL = { // FOR FUTURE REFERENCE, ONLY USE 1015x636 FOR T
 export const routeList: { href: string, label: string, component?: Component, iconPrefix?: Component, iconSuffix?: Component, hidden?: boolean }[] = [
     {
         href: "/",
-        label: "Down",
-        component: Down,
+        label: "Home",
+        component: Home,
         hidden: true
     },
     {

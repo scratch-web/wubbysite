@@ -8,7 +8,7 @@ import { CloudAlert } from 'lucide-vue-next';
       <CloudAlert class="w-32 h-32 mx-auto" />
       <h1 class="text-4xl my-4 font-bold">Wubby Status</h1>
       <p>
-      The API is currently down right now, please check back at a different time.<br>Update: If you want to access wubby, join the group
+      The API is currently down right now, please check back at a different time.<br>Update: If you want to access wubby, join the group.
       </p>
     </div>
   </div>

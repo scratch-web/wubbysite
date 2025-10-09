@@ -1,7 +1,7 @@
-import Home from "@/views/Down.vue"
-import Worlds from "@/views/Down.vue";
-import NotFound from "@/views/Down.vue";
-import Recode from "@/views/Down.vue";
+import Home from "@/views/Home.vue"
+import Worlds from "@/views/Worlds.vue";
+import NotFound from "@/views/NotFound.vue";
+import Recode from "@/views/Recode.vue";
 import { Component } from "vue";
 import { SquareArrowOutUpRight } from "lucide-vue-next";
 

@@ -176,7 +176,7 @@ onMounted(async () => {
           Wubby also offers an easy-to-use wiring system, which allows you to create complex game mechanics and interactive systems to bring life to your worlds. The building tools are also intuitive and easy to use, making it easy for players of all levels to design amazing worlds.
           Whether you are an experienced game developer or just starting, Wubby offers a fun and creative experience that allows you to explore your ideas and push the boundaries of the imaginable.
           <br /><br />
-          Wubby currently has a relatively small community compared to what was World Builder, its ancestor with only around <b>{{ presenceCount }}</b> reocurring members (Wubby, not World Builder).
+          Wubby currently has a relatively small community compared to what was World Builder, its ancestor.
         </p>
       </section>
     </div>

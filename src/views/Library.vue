@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Play, Download } from 'lucide-vue-next'
 
 const modules = import.meta.glob('@/assets/memes/*.mp4', {
   eager: true,
   as: 'url',
 })
-
-type Meme = {
-  name: string
-  url: string
-}
 
 const memes = Object.entries(modules).map(([path, url]) => {
   const fileName = path.split('/').pop() || 'unknown'
@@ -20,7 +14,6 @@ const memes = Object.entries(modules).map(([path, url]) => {
   }
 })
 
-// Store refs to videos
 const videoRefs = new Map<string, HTMLVideoElement>()
 
 function setVideoRef(el: HTMLVideoElement | null, url: string) {
@@ -41,6 +34,7 @@ function downloadMeme(url: string, name: string) {
   a.click()
 }
 </script>
+
 
 <template>
   <div class="p-6">

@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       countdown: "Loading...",
-      releaseDate: new Date("March 28, 2036 00:00:00").getTime(),
+      releaseDate: new Date("March 23, 2026 00:00:00").getTime(),
       interval: null,
     };
   },

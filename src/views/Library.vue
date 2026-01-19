@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Play, Pause, Download, X } from 'lucide-vue-next'
+import { Play, Pause, Download } from 'lucide-vue-next'
 
 const modules = import.meta.glob('@/assets/memes/*.mp4', {
   eager: true,
@@ -25,6 +25,7 @@ function togglePlay(url: string) {
   const video = videoRefs.get(url)
   if (!video) return
 
+  // pause others
   for (const [otherUrl, otherVideo] of videoRefs) {
     if (otherUrl !== url) otherVideo.pause()
   }
@@ -38,10 +39,8 @@ function togglePlay(url: string) {
   }
 }
 
-function closeViewer() {
-  if (!activeMemeUrl) return
-  videoRefs.get(activeMemeUrl)?.pause()
-  activeMemeUrl = null
+function isPlaying(url: string) {
+  return activeMemeUrl === url && !videoRefs.get(url)?.paused
 }
 
 function downloadMeme(url: string, name: string) {
@@ -50,17 +49,11 @@ function downloadMeme(url: string, name: string) {
   a.download = `${name}.mp4`
   a.click()
 }
-
-function isPlaying(url: string) {
-  return activeMemeUrl === url && !videoRefs.get(url)?.paused
-}
 </script>
-
 <template>
   <div class="p-6">
     <h1 class="text-4xl font-bold mb-6 text-center">Meme Library</h1>
 
-    <!-- Grid -->
     <div
       class="grid gap-6
              grid-cols-1
@@ -71,16 +64,24 @@ function isPlaying(url: string) {
       <div
         v-for="meme in memes"
         :key="meme.url"
-        class="bg-background border rounded-xl overflow-hidden shadow-sm"
+        class="relative border rounded-xl overflow-hidden bg-background shadow-sm transition-all"
+        :class="{
+          'col-span-full z-40 scale-[1.02]': activeMemeUrl === meme.url
+        }"
       >
+        <!-- Video -->
         <video
           :src="meme.url"
-          class="w-full aspect-video bg-black cursor-pointer"
+          class="w-full aspect-video bg-black cursor-pointer transition-all"
+          :class="{
+            'rounded-xl': activeMemeUrl === meme.url
+          }"
           preload="metadata"
           :ref="el => setVideoRef(el as HTMLVideoElement, meme.url)"
           @click="togglePlay(meme.url)"
         />
 
+        <!-- Controls -->
         <div class="flex items-center justify-between px-3 py-2">
           <button
             class="hover:text-primary transition"
@@ -105,27 +106,6 @@ function isPlaying(url: string) {
         </div>
       </div>
     </div>
-
-    <!-- Expanded Viewer -->
-    <div
-      v-if="activeMemeUrl"
-      class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center"
-    >
-      <div class="relative w-full max-w-5xl px-4">
-        <button
-          class="absolute -top-10 right-0 text-white hover:text-primary"
-          @click="closeViewer"
-        >
-          <X class="w-6 h-6" />
-        </button>
-
-        <video
-          :src="activeMemeUrl"
-          class="w-full rounded-xl"
-          controls
-          autoplay
-        />
-      </div>
-    </div>
   </div>
 </template>
+

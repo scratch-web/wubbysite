@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Play, Pause, Download } from 'lucide-vue-next'
 
 // Load all .mp4 files from src/assets/memes

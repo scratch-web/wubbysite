@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { Play, Download } from 'lucide-vue-next'
 
-// Grab all mp4 files in src/assets/memes
 const modules = import.meta.glob('@/assets/memes/*.mp4', {
   eager: true,
   as: 'url',
@@ -13,17 +12,25 @@ type Meme = {
   url: string
 }
 
-const memes = ref<Meme[]>(
-  Object.entries(modules).map(([path, url]) => {
-    const fileName = path.split('/').pop() || 'unknown'
-    return {
-      name: fileName.replace('.mp4', ''),
-      url: url as string,
-    }
-  })
-)
+const memes = Object.entries(modules).map(([path, url]) => {
+  const fileName = path.split('/').pop() || 'unknown'
+  return {
+    name: fileName.replace('.mp4', ''),
+    url: url as string,
+  }
+})
 
-function playMeme(video: HTMLVideoElement) {
+// Store refs to videos
+const videoRefs = new Map<string, HTMLVideoElement>()
+
+function setVideoRef(el: HTMLVideoElement | null, url: string) {
+  if (el) videoRefs.set(url, el)
+}
+
+function togglePlay(url: string) {
+  const video = videoRefs.get(url)
+  if (!video) return
+
   video.paused ? video.play() : video.pause()
 }
 
@@ -37,7 +44,7 @@ function downloadMeme(url: string, name: string) {
 
 <template>
   <div class="p-6">
-    <h1 class="text-4xl font-bold mb-6 text-center">Meme Library</h1>
+    <h1 class="text-4xl font-bold mb-6 text-center">Meme Browser</h1>
 
     <div
       class="grid gap-6
@@ -53,17 +60,17 @@ function downloadMeme(url: string, name: string) {
       >
         <!-- Video -->
         <video
-          ref="video"
           :src="meme.url"
           class="w-full aspect-video bg-black"
           preload="metadata"
+          :ref="el => setVideoRef(el as HTMLVideoElement, meme.url)"
         />
 
         <!-- Controls -->
         <div class="flex items-center justify-between px-3 py-2">
           <button
             class="hover:text-primary transition"
-            @click="playMeme($event.currentTarget.closest('div')!.previousElementSibling as HTMLVideoElement)"
+            @click="togglePlay(meme.url)"
           >
             <Play class="w-5 h-5" />
           </button>
@@ -81,12 +88,5 @@ function downloadMeme(url: string, name: string) {
         </div>
       </div>
     </div>
-
-    <p
-      v-if="memes.length === 0"
-      class="text-center opacity-70 mt-24"
-    >
-      No memes found, this is most likely an error in the code because i put memes in the directory
-    </p>
   </div>
 </template>

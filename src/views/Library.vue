@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Play, Pause, Download } from 'lucide-vue-next'
+import { reactive } from 'vue'
 
 // Load all .mp4 files from src/assets/memes
 const memeFiles = import.meta.glob('@/assets/memes/*.mp4', {
@@ -7,17 +8,17 @@ const memeFiles = import.meta.glob('@/assets/memes/*.mp4', {
   as: 'url'
 }) as Record<string, string>
 
-// Convert files into an array we can loop over
+// Convert files into an array we can loop over with reactive aspectRatio
 const memes = Object.entries(memeFiles).map(([path, url]) => {
   const name = path.split('/').pop()?.replace('.mp4', '') ?? 'unknown'
-  return { name, url, aspectRatio: 1 } // default aspect ratio
+  return reactive({ name, url, aspectRatio: 1 })
 })
 
 // Store video elements so we can control them
 const videoRefs = new Map<string, HTMLVideoElement>()
 
-function setVideoRef(el: HTMLVideoElement | null, meme: { url: string }) {
-  if (el) {
+function setVideoRef(el: HTMLVideoElement | null, meme: typeof memes[number]) {
+  if (el instanceof HTMLVideoElement) {
     videoRefs.set(meme.url, el)
     el.onloadedmetadata = () => {
       meme.aspectRatio = el.videoWidth / el.videoHeight
@@ -64,7 +65,7 @@ function downloadMeme(url: string, name: string) {
           :src="meme.url"
           preload="metadata"
           class="w-full h-full object-contain bg-black"
-          :ref="el => setVideoRef(el, meme)"
+          :ref="el => setVideoRef(el as HTMLVideoElement | null, meme)"
         />
 
         <div class="p-3 flex items-center justify-between">

@@ -46,7 +46,9 @@ function downloadMeme(url: string, name: string) {
   const a = document.createElement('a')
   a.href = url
   a.download = `${name}.mp4`
+  document.body.appendChild(a)
   a.click()
+  document.body.removeChild(a)
 }
 </script>
 
@@ -59,12 +61,12 @@ function downloadMeme(url: string, name: string) {
         v-for="meme in memes"
         :key="meme.url"
         class="bg-background border rounded-xl overflow-hidden shadow flex flex-col"
-        :style="{ height: meme.aspectRatio >= 1 ? '12rem' : (12 / meme.aspectRatio) + 'rem' }"
       >
         <video
           :src="meme.url"
           preload="metadata"
-          class="w-full h-full object-contain bg-black"
+          class="w-full object-contain bg-black"
+          :style="{ height: meme.aspectRatio >= 1 ? '12rem' : (12 / meme.aspectRatio) + 'rem' }"
           :ref="el => setVideoRef(el as HTMLVideoElement | null, meme)"
         />
 

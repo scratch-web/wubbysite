@@ -2,6 +2,7 @@ import Home from "@/views/Home.vue"
 import Worlds from "@/views/Worlds.vue";
 import NotFound from "@/views/NotFound.vue";
 import Recode from "@/views/Recode.vue";
+import Library from "@/views/Library.vue";
 import { Component } from "vue";
 import { SquareArrowOutUpRight } from "lucide-vue-next";
 
@@ -70,6 +71,11 @@ export const routeList: { href: string, label: string, component?: Component, ic
         label: "Recode",
         component: Recode,
         hidden: true
+    },
+    {
+        href: "/library",
+        label: "Library",
+        component: Library,
     },
     {
         href: "/:pathMatch(.*)*",

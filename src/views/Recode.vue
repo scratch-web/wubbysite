@@ -13,7 +13,7 @@
         </h1>
       </div>
       <h2 class="max-w-screen-sm mx-auto text-xl text-muted-foreground">
-        Recode release date: <span>{{ countdown }}</span>
+        ESTIMATED Recode release date: <span>{{ countdown }}</span>
       </h2>
     </div>
   </div>
